@@ -2,7 +2,7 @@
  * author Steve Hsu
  * steve@kunkua.com
  */
-#include "crypto.h"
+#include "Crypto.h"
 #include "Config.h"
 
 #include <stdio.h>
@@ -11,8 +11,8 @@
 
 #include <dlfcn.h>
 
-#include <openssl/aes.h>
-#include <openssl/md5.h>
+#include "openssl/aes.h"
+#include "openssl/md5.h"
 //#include <openssl/rsa.h>
 
 Crypto::Crypto()
@@ -187,40 +187,43 @@ Data* Crypto::md5(Data& data)
 	return result;
 }
 
-static unsigned char* hexToChar(const char* src,unsigned int length,unsigned int* outLength)
+Data* Crypto::hex2char(Data& data)
 {
-	int _outLength = length/2;
+	int outLength = data._size/2;
 	int i;
 	char tmp[2+1];
 	tmp[2] = '\0';
-	unsigned char* out = (unsigned char*)malloc(_outLength);
+	unsigned char* out = (unsigned char*)malloc(outLength);
 	long num;
-	for(i = 0;i < _outLength;i++) {
-		memcpy(&(tmp[0]),&(src[i*2]),2);
+	for(i = 0;i < outLength;i++) {
+		memcpy(&(tmp[0]),&(data._bytes[i*2]),2);
 		num = strtol(tmp,NULL,16);
 		out[i] = num;
 	}
 
-	*outLength = _outLength;
-	return out;
+	Data* result = new Data();
+	result->fastSet(out, _outLength);
+
+	return result;
 }
 
-static unsigned char* charToHex(const char* src,unsigned int length,unsigned int* outLength)
+Data* Crypto::char2hex(Data& data)
 {
-	int _outLength = length*2;
+	int outLength = data._size*2;
 
-	unsigned char *buf = (unsigned char *)malloc(sizeof(char)*(_outLength+1));
-	memset(buf,'\0',sizeof(char)*(_outLength+1));
+	unsigned char *buf = (unsigned char *)malloc(sizeof(char)*(outLength+1));
+	memset(buf,'\0',sizeof(char)*(outLength+1));
 	unsigned char tmp[3]={'\0'};
 	int i;
 
 	for (i = 0; i < length; i++){
-		  sprintf(reinterpret_cast<char*>(tmp),"%2.2x",(unsigned int)src[i]);
+		  sprintf(reinterpret_cast<char*>(tmp),"%2.2x",(unsigned int)data._bytes[i]);
 		  strcat(reinterpret_cast<char*>(buf),reinterpret_cast<char*>(tmp));
 	}
 
-	*outLength = _outLength;
-	log("hex encode:%s",buf);
-	return buf;
-
+	Data* result = new Data();
+	result->fastSet(buf, outLength);
+	LOG("hex encode:%s",buf);
+	
+	return result;
 }

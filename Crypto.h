@@ -6,6 +6,9 @@
 class Crypto
 {
 public:
+	static Data* hex2char(Data& data);
+	static Data* char2hex(Data& data);
+
 	Crypto();
     ~Crypto();
 
