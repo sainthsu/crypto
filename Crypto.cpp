@@ -1,7 +1,9 @@
 /**
- * author xusq@youzu.com
+ * author Steve Hsu
+ * steve@kunkua.com
  */
 #include "crypto.h"
+#include "Config.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -12,9 +14,6 @@
 #include <openssl/aes.h>
 #include <openssl/md5.h>
 //#include <openssl/rsa.h>
-#include <android/log.h>
-  #define LOG_TAG "MAIN_JNI"
-  #define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, fmt, ##args)
 
 Crypto::Crypto()
 :aesKey(NULL)
@@ -37,7 +36,7 @@ void Crypto::openLib()
 /**
  * all char array must end of '\0'
  */
-unsigned char* Crypto::AESEncode(const unsigned char* data,unsigned int dataLength,const unsigned char* key,unsigned int keyLength,unsigned int *outLength)
+Data* Crypto::AESEncode(Data& data,Data& key)
 {
 	AES_set_encrypt_key setKey = NULL;
 	AES_encrypt encrypt = NULL;
@@ -53,13 +52,13 @@ unsigned char* Crypto::AESEncode(const unsigned char* data,unsigned int dataLeng
 
 	 AES_KEY aes_key;
 
-	 if(setKey(key, keyLength*8, &aes_key) < 0)
+	 if(setKey(key._bytes, key._size*8, &aes_key) < 0)
 	 {
 	      return NULL;
 	 }
 
-	 unsigned int data_length = dataLength;
-	 unsigned int out_length;
+	 unsigned int data_length = data._size;
+	 unsigned int out_length = data_length;
 
 	 //add PKCS7 Padding
 	 //If the original data is a multiple of N bytes, then an extra block of bytes with value N is added
@@ -77,7 +76,7 @@ unsigned char* Crypto::AESEncode(const unsigned char* data,unsigned int dataLeng
 		 out_length = data_length + padding;
 	 }
 
-	 LOGI("out:%d,padding:%d,in:%d",out_length,padding,data_length);
+	 LOG("out:%d,padding:%d,in:%d",out_length,padding,data_length);
 
 	 unsigned char tmp[out_length + 1];
 	 memcpy(tmp,data,data_length);
@@ -103,12 +102,13 @@ unsigned char* Crypto::AESEncode(const unsigned char* data,unsigned int dataLeng
 		 memcpy(&(out[AES_BLOCK_SIZE*i]),&(outBlock[0]),AES_BLOCK_SIZE);
 	 }
 
-	 *outLength = out_length;
+	 Data* result = new Data();
+	 result->fastSet(out, out_length);
 
-	 return out;
+	 return result;
 }
 
-unsigned char* Crypto::AESDecode(const unsigned char* data,unsigned int dataLength,const unsigned char* key,unsigned int keyLength,unsigned int *outLength)
+Data* Crypto::AESDecode(Data& data,Data& key)
 {
 	AES_set_decrypt_key setKey = NULL;
 	AES_decrypt decrypt = NULL;
@@ -125,7 +125,7 @@ unsigned char* Crypto::AESDecode(const unsigned char* data,unsigned int dataLeng
 	AES_KEY aes_key;
 	unsigned int out_length;
 
-	if(setKey(key, keyLength * 8, &aes_key) < 0)
+	if(setKey(key._bytes, key._size* 8, &aes_key) < 0)
 	{
 	     return NULL;
 	}
@@ -158,11 +158,13 @@ unsigned char* Crypto::AESDecode(const unsigned char* data,unsigned int dataLeng
 	memcpy(out,tmp,out_length);
 	out[out_length] = '\0';
 
-	*outLength = out_length;
-	return out;
+	Data* result = new Data();
+	result->fastSet(out, out_length);
+
+	return result;
 }
 
-unsigned char* Crypto::md5(const unsigned char* data)
+Data* Crypto::md5(Data& data)
 {
 	MD5 md5_func = NULL;
 
@@ -178,7 +180,11 @@ unsigned char* Crypto::md5(const unsigned char* data)
 	memset(md,'\0',sizeof(char)*17);
 
 	md5_func(data,strlen(reinterpret_cast<const char*>(data)),md);
-	return md;
+
+	Data* result = new Data();
+	result->fastSet(md, 16);
+
+	return result;
 }
 
 static unsigned char* hexToChar(const char* src,unsigned int length,unsigned int* outLength)
