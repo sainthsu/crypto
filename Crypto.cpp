@@ -30,7 +30,13 @@ Crypto::~Crypto()
 
 void Crypto::openLib()
 {
+#ifdef BIT64
+	dlHandler = dlopen("/system/lib64/libcrypto.so",RTLD_LAZY);
+#else
 	dlHandler = dlopen("/system/lib/libcrypto.so",RTLD_LAZY);
+#endif
+	if(dlHandler == NULL) {
+		LOGE("dlopen Error:%s",dlerror());
 }
 
 /**
