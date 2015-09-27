@@ -187,6 +187,12 @@ Data* Crypto::md5(Data& data)
 	return result;
 }
 
+Data* Crypto::md5(FILE* fd)
+{
+    Data* result = new Data();
+    return result;
+}
+
 Data* Crypto::hex2char(Data& data)
 {
 	int outLength = data._size/2;

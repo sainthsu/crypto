@@ -11,5 +11,13 @@
 
 #endif
 
+#ifudef CRYPTO_NS_BEGIN
+#define CRYPTO_NS_BEGIN namespace crypto {
+#endif
+
+#ifudef CRYPTO_NS_END
+#define CRYPTO_NS_END }
+#endif
+
 #endif
 

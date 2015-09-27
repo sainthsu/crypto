@@ -16,6 +16,7 @@ public:
 	Data* AESDecode(Data &src,Data& key);
 
 	Data* md5(Data &data);
+    Data* md5(FILE * fd);
 	//void setAESKey(const unsigned char* key);
 protected:
 	unsigned char* aesKey;
