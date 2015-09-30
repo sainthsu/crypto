@@ -7,6 +7,7 @@ LOCAL_LDLIBS :=-llog \
 
 LOCAL_MODULE    := smssdk
 LOCAL_SRC_FILES := Data.cpp \
+		           Base64.cpp \
 				   Crypto.cpp
 				   
 LOCAL_STATIC_LIBRARIES := crypto_static
