@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
 LOCAL_LDLIBS :=-llog \
                -ldl \
 
-LOCAL_MODULE    := smssdk
+LOCAL_MODULE    := crypto_static
 LOCAL_SRC_FILES := Data.cpp \
 		           Base64.cpp \
 				   Crypto.cpp

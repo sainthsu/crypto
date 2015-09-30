@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef HEADER_DATA_H
+#define HEADER_DATA_H
 
 #include <stddef.h> // for size_t on android
 

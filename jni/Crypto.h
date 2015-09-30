@@ -1,5 +1,5 @@
-#ifndef CRYPTO_H
-#define CRYPTO_H
+#ifndef HEADER_CRYPTO_H
+#define HEADER_CRYPTO_H
 
 #include "Data.h"
 
