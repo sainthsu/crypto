@@ -199,6 +199,79 @@ Data* Crypto::md5(FILE* fd)
     return result;
 }
 
+Data* Crypto::sha1(Data& data)  
+{  
+    SHA_CTX c;  
+    unsigned char md[SHA_DIGEST_LENGTH];  
+    SHA1((unsigned char *)orgStr, strlen(orgStr), md);  
+    printHash(md, SHA_DIGEST_LENGTH);  
+  
+    SHA1_Init(&c);  
+    SHA1_Update(&c, orgStr, strlen(orgStr));  
+    SHA1_Final(md, &c);  
+    OPENSSL_cleanse(&c, sizeof(c));  
+    printHash(md, SHA_DIGEST_LENGTH);  
+}  
+  
+Data* Crypto::sha224(Data& data)  
+{  
+    SHA256_CTX c;  
+    unsigned char md[SHA224_DIGEST_LENGTH];  
+    SHA224((unsigned char *)orgStr, strlen(orgStr), md);  
+    printHash(md, SHA224_DIGEST_LENGTH);  
+  
+    SHA224_Init(&c);  
+    SHA224_Update(&c, orgStr, strlen(orgStr));  
+    SHA224_Final(md, &c);  
+    OPENSSL_cleanse(&c, sizeof(c));  
+    printHash(md, SHA224_DIGEST_LENGTH);  
+}  
+  
+Data* Crypto::sha256(Data& data)  
+{  
+    SHA256_CTX c;  
+    unsigned char md[SHA256_DIGEST_LENGTH];  
+    SHA256((unsigned char *)orgStr, strlen(orgStr), md);  
+    printHash(md, SHA256_DIGEST_LENGTH);  
+  
+    SHA256_Init(&c);  
+    SHA256_Update(&c, orgStr, strlen(orgStr));  
+    SHA256_Final(md, &c);  
+    OPENSSL_cleanse(&c, sizeof(c));  
+    printHash(md, SHA256_DIGEST_LENGTH);  
+}  
+  
+Data* Crypto::sha384(Data& data)  
+{  
+    SHA512_CTX c;  
+    unsigned char md[SHA384_DIGEST_LENGTH];  
+    SHA384((unsigned char *)orgStr, strlen(orgStr), md);  
+    printHash(md, SHA384_DIGEST_LENGTH);  
+  
+    SHA384_Init(&c);  
+    SHA384_Update(&c, orgStr, strlen(orgStr));  
+    SHA384_Final(md, &c);  
+    OPENSSL_cleanse(&c, sizeof(c));  
+    printHash(md, SHA384_DIGEST_LENGTH);  
+}  
+  
+Data* Crypto::shah512(Data& data)  
+{  
+    SHA512_CTX c;  
+    unsigned char md[SHA512_DIGEST_LENGTH];  
+    SHA512((unsigned char *)orgStr, strlen(orgStr), md);  
+    printHash(md, SHA512_DIGEST_LENGTH);  
+  
+    SHA512_Init(&c);  
+    SHA512_Update(&c, orgStr, strlen(orgStr));  
+    SHA512_Final(md, &c);  
+    OPENSSL_cleanse(&c, sizeof(c));  
+    printHash(md, SHA512_DIGEST_LENGTH);  
+}  
+  
+
+
+
 Data* Crypto::hex2char(Data& data)
 {
 	int outLength = data._size/2;

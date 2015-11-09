@@ -9,14 +9,6 @@
 extern "C" {
 #endif
 
-#if defined(OPENSSL_NO_SHA) || (defined(OPENSSL_NO_SHA0) && defined(OPENSSL_NO_SHA1))
-#error SHA is disabled.
-#endif
-
-#if defined(OPENSSL_FIPS)
-#define FIPS_SHA_SIZE_T size_t
-#endif
-
 /*
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * ! SHA_LONG has to be at least 32 bits wide. If it's wider, then !
@@ -26,7 +18,7 @@ extern "C" {
 
 #if defined(__LP32__)
 #define SHA_LONG unsigned long
-#elif defined(OPENSSL_SYS_CRAY) || defined(__ILP64__)
+#elif defined(__ILP64__)
 #define SHA_LONG unsigned long
 #define SHA_LONG_LOG2 3
 #else
@@ -49,9 +41,6 @@ typedef struct SHAstate_st
 	} SHA_CTX;
 
 #ifndef OPENSSL_NO_SHA0
-#ifdef OPENSSL_FIPS
-int private_SHA_Init(SHA_CTX *c);
-#endif
 int SHA_Init(SHA_CTX *c);
 int SHA_Update(SHA_CTX *c, const void *data, size_t len);
 int SHA_Final(unsigned char *md, SHA_CTX *c);
@@ -59,9 +48,6 @@ unsigned char *SHA(const unsigned char *d, size_t n, unsigned char *md);
 void SHA_Transform(SHA_CTX *c, const unsigned char *data);
 #endif
 #ifndef OPENSSL_NO_SHA1
-#ifdef OPENSSL_FIPS
-int private_SHA1_Init(SHA_CTX *c);
-#endif
 int SHA1_Init(SHA_CTX *c);
 int SHA1_Update(SHA_CTX *c, const void *data, size_t len);
 int SHA1_Final(unsigned char *md, SHA_CTX *c);
@@ -84,10 +70,6 @@ typedef struct SHA256state_st
 	} SHA256_CTX;
 
 #ifndef OPENSSL_NO_SHA256
-#ifdef OPENSSL_FIPS
-int private_SHA224_Init(SHA256_CTX *c);
-int private_SHA256_Init(SHA256_CTX *c);
-#endif
 int SHA224_Init(SHA256_CTX *c);
 int SHA224_Update(SHA256_CTX *c, const void *data, size_t len);
 int SHA224_Final(unsigned char *md, SHA256_CTX *c);
@@ -135,10 +117,6 @@ typedef struct SHA512state_st
 #endif
 
 #ifndef OPENSSL_NO_SHA512
-#ifdef OPENSSL_FIPS
-int private_SHA384_Init(SHA512_CTX *c);
-int private_SHA512_Init(SHA512_CTX *c);
-#endif
 int SHA384_Init(SHA512_CTX *c);
 int SHA384_Update(SHA512_CTX *c, const void *data, size_t len);
 int SHA384_Final(unsigned char *md, SHA512_CTX *c);

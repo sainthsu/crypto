@@ -18,6 +18,13 @@ public:
 	Data* md5(Data &data);
     Data* md5(FILE * fd);
 	//void setAESKey(const unsigned char* key);
+	
+	Data* sha1(Data &data);
+	Data* sha224(Data &data);
+	Data* sha256(Data &data);
+	Data* sha384(Data &data);
+	Data* sha512(Data &data);
+
 protected:
 	unsigned char* aesKey;
 	unsigned char* rsaPublicKey;
