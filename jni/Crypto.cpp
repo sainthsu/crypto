@@ -185,7 +185,7 @@ Data* Crypto::md5(Data& data)
 	unsigned char* md = (unsigned char *)malloc(sizeof(char)*17);
 	memset(md,'\0',sizeof(char)*17);
 
-	md5_func(data,strlen(reinterpret_cast<const char*>(data)),md);
+	md5_func(data._bytes,data._size,md);
 
 	Data* result = new Data();
 	result->fastSet(md, 16);
@@ -201,72 +201,102 @@ Data* Crypto::md5(FILE* fd)
 
 Data* Crypto::sha1(Data& data)  
 {  
-    SHA_CTX c;  
-    unsigned char md[SHA_DIGEST_LENGTH];  
-    SHA1((unsigned char *)orgStr, strlen(orgStr), md);  
-    printHash(md, SHA_DIGEST_LENGTH);  
-  
-    SHA1_Init(&c);  
-    SHA1_Update(&c, orgStr, strlen(orgStr));  
-    SHA1_Final(md, &c);  
-    OPENSSL_cleanse(&c, sizeof(c));  
-    printHash(md, SHA_DIGEST_LENGTH);  
+    SHA_CTX c;
+  	SHA1 sha1;	
+    unsigned char *md = (unsigned char*)malloc(SHA_DIGEST_LENGTH);
+  	if(dlHandler == NULL) {
+		openLib();
+	}
+
+	if(dlHandler) {
+		sha1 = (SHA1)dlsym(dlHandler,"SHA1");
+	}	
+    sha1((data._bytes, data._size, md);
+
+    Data* result = new Data();
+  	result->fastSet(md,SHA_DIGEST_LENGTH);
+
+	return result;	
 }  
   
 Data* Crypto::sha224(Data& data)  
 {  
-    SHA256_CTX c;  
-    unsigned char md[SHA224_DIGEST_LENGTH];  
-    SHA224((unsigned char *)orgStr, strlen(orgStr), md);  
-    printHash(md, SHA224_DIGEST_LENGTH);  
-  
-    SHA224_Init(&c);  
-    SHA224_Update(&c, orgStr, strlen(orgStr));  
-    SHA224_Final(md, &c);  
-    OPENSSL_cleanse(&c, sizeof(c));  
-    printHash(md, SHA224_DIGEST_LENGTH);  
+    SHA256_CTX c;
+	SHA224 sha224;	
+    unsigned char *md = (unsigned char*)malloc(SHA224_DIGEST_LENGTH);
+  	if(dlHandler == NULL) {
+		openLib();
+	}
+
+	if(dlHandler) {
+		sha224 = (SHA224)dlsym(dlHandler,"SHA224");
+	}	
+    sha224((data._bytes, data._size, md);
+
+    Data* result = new Data();
+  	result->fastSet(md,SHA224_DIGEST_LENGTH);
+
+	return result;	
 }  
   
 Data* Crypto::sha256(Data& data)  
 {  
-    SHA256_CTX c;  
-    unsigned char md[SHA256_DIGEST_LENGTH];  
-    SHA256((unsigned char *)orgStr, strlen(orgStr), md);  
-    printHash(md, SHA256_DIGEST_LENGTH);  
-  
-    SHA256_Init(&c);  
-    SHA256_Update(&c, orgStr, strlen(orgStr));  
-    SHA256_Final(md, &c);  
-    OPENSSL_cleanse(&c, sizeof(c));  
-    printHash(md, SHA256_DIGEST_LENGTH);  
+    SHA256_CTX c;
+	SHA256 sha256;	
+    unsigned char *md = (unsigned char*)malloc(SHA256_DIGEST_LENGTH);
+  	if(dlHandler == NULL) {
+		openLib();
+	}
+
+	if(dlHandler) {
+		sha256 = (SHA256)dlsym(dlHandler,"SHA256");
+	}	
+    sha256(data._bytes, data._size, md);
+
+    Data* result = new Data();
+  	result->fastSet(md,SHA256_DIGEST_LENGTH);
+
+	return result;		
 }  
   
 Data* Crypto::sha384(Data& data)  
 {  
-    SHA512_CTX c;  
-    unsigned char md[SHA384_DIGEST_LENGTH];  
-    SHA384((unsigned char *)orgStr, strlen(orgStr), md);  
-    printHash(md, SHA384_DIGEST_LENGTH);  
-  
-    SHA384_Init(&c);  
-    SHA384_Update(&c, orgStr, strlen(orgStr));  
-    SHA384_Final(md, &c);  
-    OPENSSL_cleanse(&c, sizeof(c));  
-    printHash(md, SHA384_DIGEST_LENGTH);  
+    SHA512_CTX c;
+	SHA384 sha384;	
+    unsigned char *md = (unsigned char*)malloc(SHA384_DIGEST_LENGTH);
+  	if(dlHandler == NULL) {
+		openLib();
+	}
+
+	if(dlHandler) {
+		sha384 = (SHA384)dlsym(dlHandler,"SHA384");
+	}	
+    sha384((data._bytes, data._size, md);
+
+    Data* result = new Data();
+  	result->fastSet(md,SHA384_DIGEST_LENGTH);
+
+	return result;	
 }  
   
 Data* Crypto::shah512(Data& data)  
 {  
-    SHA512_CTX c;  
-    unsigned char md[SHA512_DIGEST_LENGTH];  
-    SHA512((unsigned char *)orgStr, strlen(orgStr), md);  
-    printHash(md, SHA512_DIGEST_LENGTH);  
-  
-    SHA512_Init(&c);  
-    SHA512_Update(&c, orgStr, strlen(orgStr));  
-    SHA512_Final(md, &c);  
-    OPENSSL_cleanse(&c, sizeof(c));  
-    printHash(md, SHA512_DIGEST_LENGTH);  
+    SHA512_CTX c;
+	SHA512 sha512;	
+    unsigned char *md = (unsigned char*)malloc(SHA512_DIGEST_LENGTH);
+  	if(dlHandler == NULL) {
+		openLib();
+	}
+
+	if(dlHandler) {
+		sha512 = (SHA512)dlsym(dlHandler,"SHA512");
+	}	
+    sha512((data._bytes, data._size, md);
+
+    Data* result = new Data();
+  	result->fastSet(md,SHA512_DIGEST_LENGTH);
+
+	return result;		
 }  
   
 

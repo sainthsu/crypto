@@ -4,8 +4,8 @@
 *AES
 *MD5
 *BASE64
+*SHA
 
 ###TODO
 *RSA
-*SHA
 
