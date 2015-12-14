@@ -7,8 +7,8 @@ model {
 
         defaultConfig.with {
             applicationId = "org.feike.cryptotest"
-            minSdkVersion = 8
-            targetSdkVersion = 23
+            minSdkVersion.apiLevel = 8
+            targetSdkVersion.apiLevel = 23
             versionCode = 1
             versionName = "1.0"
         }
@@ -24,6 +24,8 @@ model {
      */
     android.ndk {
         moduleName = "acrypto"
+        ldLibs.addAll(['log','dl'])
+        cppFlags.add('-std=c++11')
         /*
          * Other ndk flags configurable here are
          * cppFlags += "-fno-rtti"
