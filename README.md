@@ -6,6 +6,8 @@
 *BASE64
 *SHA
 
+###How To Use
+
 ###TODO
 *RSA
 

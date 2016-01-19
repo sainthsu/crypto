@@ -5,11 +5,11 @@ include $(CLEAR_VARS)
 LOCAL_LDLIBS :=-llog \
                -ldl \
 
-LOCAL_MODULE    := crypto_static
+LOCAL_MODULE    := acrypto
 LOCAL_SRC_FILES := Data.cpp \
 		           Base64.cpp \
-				   Crypto.cpp
-				   
-LOCAL_STATIC_LIBRARIES := crypto_static
+				   Crypto.cpp \
+				   JNIBridge.cpp
+
 include $(BUILD_SHARED_LIBRARY)
 
